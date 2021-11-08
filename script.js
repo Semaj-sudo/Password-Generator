@@ -4,10 +4,15 @@ var upperCase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"
 var lowerCase = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var numerical = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 var special = ["+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "~", "*", "?", ":"];
-var passwordResult = ("")
+var passwordResult = [];
+var newPassword = ''
+var getCharacter = 0
+var specify1 = false
+var specify2 = false
+var specify3 = false
+var specify4 = false
 
 // Write password to the #password input
-
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
@@ -15,95 +20,55 @@ function writePassword() {
   passwordText.value = password;
 }
 
-//event listener to generate password button
+//prompt user to character limit criteria
 generateBtn.addEventListener("click", writePassword);
 function generatePassword() {
   getCharacter = prompt("How long would you like your password to be? At least 8 and no more than 128 characters.");
   if (getCharacter >= 8 && getCharacter <= 128) {
-    alert("Nice, I was just going to suggest that.")
-    getSpecific1()
+    alert("Nice, I was just going to suggest that.");
+    specifyCharacters();
+  } else {
+    alert("Please choose a valid character length.");
+    generatePassword();
+  }
+  return newPassword
+}
+
+//confirm if user would like one or more of password critera
+function specifyCharacters() {
+  specify1 = confirm("Would you like to include lowercase characters?")
+  specify2 = confirm("Would you like to include uppercase characters?")
+  specify3 = confirm("Would you like to include numerical characters?")
+  specify4 = confirm("Would you like to include special characters?")
+  if (specify1 || specify2 || specify3 || specify4) {
+    arrayJoiner()
   }
   else {
-    alert("Please choose a valid character length.");
-    generatePassword()
-  }
- }
-
-//prompt for lowercase characters and generate lowercase character 
-function getSpecific1() {
-  getSpecific1 = prompt("Would you like your password to contain lowercase characters? y/n");
-  if (getSpecific1 === "n") {
-    alert("fine, no lowercase characters.");
-    getSpecific2()
-  }
-  else (getSpecific1 === "y"); {
-    getLowerCase()
-    function getLowerCase() {
-      randomLow = lowerCase[Math.floor(Math.random() * lowerCase.length)];
-    getSpecific2()
-    }
+    alert("Please choose at least one character criteria.")
+    specifyCharacters()
   }
 }
 
-//prompt for uppercase characters and generate uppercase character
-function getSpecific2() {
-  getSpecific2 = prompt("Would you like your password to contain uppercase characters? y/n")
-  if (getSpecific2 === "n") {
-    alert("fine, no uppercase characters.")
-    getSpecific3()
+//joins character arrays into a single empty array
+function arrayJoiner() {
+  if (specify1) {
+    passwordResult = passwordResult.concat(lowerCase)
   }
-else (getSpecific2 === "y"); {
-    getUpperCase();
-    function getUpperCase() {
-      randomUp = upperCase[Math.floor(Math.random() * upperCase.length)];
-      for (const i = 0; i < getCharacter; i++) {
-        passwordResult + finalpassword[i];
-        console.log(randomUp)
-      getSpecific3()
-    }
+  if (specify2) {
+    passwordResult = passwordResult.concat(upperCase)
   }
+  if (specify3) {
+    passwordResult = passwordResult.concat(numerical)
+  }
+  if (specify4) {
+    passwordResult = passwordResult.concat(special)
+  }
+  finalpassword()
 }
 
-//prompt for numerical characters and generate random number
-function getSpecific3() {
-  getSpecific3 = prompt("Would you like your password to contain numerical characters? y/n");
-  if (getSpecific3 === "n") {
-    alert("fine, no numerical characters.")
-    getSpecific4()
-  }
-  else (getSpecific3 === "y"); {
-    getNumerical()
-    function getNumerical() {
-      randomNumber = numerical[Math.floor(Math.random() * numerical.length)];
-      getSpecific4()
-    }
+//loops random characters from the previously empty array equal amount of times as getCharacter value
+function finalpassword(){
+  for (var i = 0; i < getCharacter; i++){
+    newPassword = newPassword.concat(passwordResult[Math.floor(Math.random() * passwordResult.length)]) 
   }
 }
-
-//prompt for special characters and generate random character
-function getSpecific4() {
-  getSpecific4 = prompt("Would you like your password to contain special characters? y/n");
-  if (getSpecific4 === "n") {
-    alert("fine, no special characters.")
-    finalpassword()
-  }
-  else (getSpecific4 === "y"); {
-    getSpecial()
-    function getSpecial() {
-      randomSpecial = special[Math.floor(Math.random() * special.length)];
-    finalpassword()
-    }
-  }
-}
-
-// display password in text box
-function finalpassword() {
-  finalpassword = (randomLow + randomUp + randomNumber + randomSpecial)
-  for (var i = 0; i < getCharacter; i++) {
-    passwordResult + finalpassword[i];
-    console.log(finalpassword)
-  }
- document.getElementById("password").innerHTML = finalpassword;
- }
-}
-
